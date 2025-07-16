@@ -52,6 +52,6 @@ ThemeData primaryTheme = ThemeData(
     color: AppColors.secondaryColor,
     shadowColor: Colors.transparent,
     shape: const RoundedRectangleBorder(),
-    margin: const EdgeInsets.only(bottom: 16),
+    margin: const EdgeInsets.only(bottom: 8),
   ),
 );

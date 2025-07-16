@@ -1,0 +1,63 @@
+mixin Stats {
+  int _points = 10;
+  int _health = 10;
+  int _attack = 10;
+  int _defense = 10;
+  int _skill = 10;
+
+  Map<String, int> get statsAsMap => {
+    'health': _health,
+    'attack': _attack,
+    'defense': _defense,
+    'skill': _skill,
+  };
+
+  List<Map<String, String>> get statsAsFormattedList => [
+    {'title': 'Health', 'value': _health.toString()},
+    {'title': 'Attack', 'value': _attack.toString()},
+    {'title': 'Defense', 'value': _defense.toString()},
+    {'title': 'Skill', 'value': _skill.toString()},
+  ];
+
+  // methods
+  void increaseStat(String stat) {
+    if (_points > 0) {
+      if (stat == 'health') {
+        _health++;
+        _points--;
+      }
+      if (stat == 'attack') {
+        _attack++;
+        _points--;
+      }
+      if (stat == 'defense') {
+        _defense++;
+        _points--;
+      }
+      if (stat == 'skill') {
+        _skill++;
+        _points--;
+      }
+    }
+  }
+
+  // methods
+  void decreaseStat(String stat) {
+    if (stat == 'health' && _health > 10) {
+      _health--;
+      _points++;
+    }
+    if (stat == 'attack' && _attack > 10) {
+      _attack--;
+      _points++;
+    }
+    if (stat == 'defense' && _defense > 10) {
+      _defense--;
+      _points++;
+    }
+    if (stat == 'skill' && _skill > 10) {
+      _skill--;
+      _points++;
+    }
+  }
+}
