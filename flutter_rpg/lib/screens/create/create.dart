@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rpg/models/character.dart';
 import 'package:flutter_rpg/models/vocation.dart';
+import 'package:flutter_rpg/screens/create/error_dialog.dart';
 import 'package:flutter_rpg/screens/create/vocation_card.dart';
+import 'package:flutter_rpg/screens/home/home.dart';
 import 'package:flutter_rpg/shared/styled_button.dart';
 import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
@@ -41,10 +43,30 @@ class _CreateState extends State<Create> {
   void handleSubmit() {
     if (_nameController.text.trim().isEmpty) {
       // show error dialog
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return ErrorDialog(
+            title: 'Missing Character Name',
+            description: 'Please fill the character name correctly!',
+            ctx: ctx,
+          );
+        },
+      );
       return;
     }
     if (_sloganController.text.trim().isEmpty) {
       // show error dialog
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return ErrorDialog(
+            title: 'Missing Slogan Name',
+            description: 'Please fill the slogan name correctly!',
+            ctx: ctx,
+          );
+        },
+      );
       return;
     }
 
@@ -56,6 +78,8 @@ class _CreateState extends State<Create> {
         id: uuid.v4(),
       ),
     );
+
+    Navigator.push(context, MaterialPageRoute(builder: (ctx) => const Home()));
   }
 
   @override
@@ -147,8 +171,6 @@ class _CreateState extends State<Create> {
             ),
           ],
         ),
-        // child: SingleChildScrollView(
-        // ),
       ),
     );
   }
