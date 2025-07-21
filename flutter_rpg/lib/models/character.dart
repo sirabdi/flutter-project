@@ -37,18 +37,18 @@ List<Character> characters = [
     name: 'Abdi Sembada',
     slogan: 'Write Code, Play Games, Hug Wife, Sleep Late, Repeat!',
     vocation: Vocation.wizard,
-    id: "1461404721",
+    id: "1",
   ),
   Character(
     name: 'Yulita Susilowati',
     slogan: 'Eat, Eat, Eat, get money from husband',
     vocation: Vocation.ninja,
-    id: "1461404720",
+    id: "2",
   ),
   Character(
     name: 'Danu Aditya',
     slogan: 'Fire In The Hole!',
     vocation: Vocation.raider,
-    id: "1461404719",
+    id: "3",
   ),
 ];
