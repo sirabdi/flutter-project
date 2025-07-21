@@ -54,4 +54,12 @@ ThemeData primaryTheme = ThemeData(
     shape: const RoundedRectangleBorder(),
     margin: const EdgeInsets.only(bottom: 8),
   ),
+
+  //input theme
+  inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    fillColor: AppColors.secondaryColor.withAlpha((255 * 0.5).round()),
+    border: InputBorder.none,
+    labelStyle: TextStyle(color: AppColors.textColor),
+  ),
 );
