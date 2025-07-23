@@ -15,23 +15,78 @@ class StatesTable extends StatefulWidget {
 class _StatesTableState extends State<StatesTable> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      color: AppColors.secondaryColor.withAlpha((255 * 0.5).round()),
-      child: Row(
-        children: [
-          Icon(
-            Icons.star,
-            color: widget.character.points > 0
-                ? AppColors.highlightColor
-                : AppColors.secondaryAccent,
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(8),
+          color: AppColors.secondaryColor,
+          child: Row(
+            children: [
+              Icon(
+                Icons.star,
+                color: widget.character.points > 0
+                    ? AppColors.highlightColor
+                    : AppColors.secondaryAccent,
+              ),
+              SizedBox(width: 8),
+              StyledText('Available points'),
+              Expanded(child: SizedBox()),
+              StyledHeading(widget.character.points.toString()),
+            ],
           ),
-          SizedBox(width: 8),
-          StyledText('Available points'),
-          Expanded(child: SizedBox()),
-          StyledHeading(widget.character.points.toString()),
-        ],
-      ),
+        ),
+
+        Table(
+          children: widget.character.statsAsFormattedList.map((stat) {
+            return TableRow(
+              decoration: BoxDecoration(
+                color: AppColors.secondaryColor.withAlpha((255 * 0.5).round()),
+              ),
+              children: [
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: StyledTitle(stat['title']!),
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: StyledTitle(stat['value']!),
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        widget.character.increaseStat(stat['title']!);
+                      });
+                    },
+                    icon: Icon(Icons.arrow_upward, color: AppColors.textColor),
+                  ),
+                ),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        widget.character.decreaseStat(stat['title']!);
+                      });
+                    },
+                    icon: Icon(
+                      Icons.arrow_downward,
+                      color: AppColors.textColor,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }

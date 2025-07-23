@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rpg/models/character.dart';
+import 'package:flutter_rpg/screens/profile/skill_list.dart';
 import 'package:flutter_rpg/screens/profile/stats_table.dart';
+import 'package:flutter_rpg/shared/styled_button.dart';
 import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
 
@@ -42,13 +44,13 @@ class Profile extends StatelessWidget {
             ),
 
             // Weapond and Skill Ability
-            SizedBox(height: 20),
+            SizedBox(height: 12),
             Center(child: Icon(Icons.code, color: AppColors.primaryColor)),
-            SizedBox(height: 8),
+            SizedBox(height: 12),
             Container(
               width: double.infinity,
               margin: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
               color: AppColors.secondaryColor.withAlpha((255 * 0.5).round()),
 
               child: Column(
@@ -70,8 +72,30 @@ class Profile extends StatelessWidget {
             SizedBox(height: 20),
             Container(
               margin: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: StatesTable(character: character),
+              child: Column(
+                children: [
+                  StatesTable(character: character),
+                  SizedBox(height: 16),
+                  SkillList(character),
+                ],
+              ),
             ),
+
+            SizedBox(height: 20),
+            StyledButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: StyledHeading('Character was saved.'),
+                    showCloseIcon: true,
+                    duration: Duration(seconds: 2),
+                    backgroundColor: AppColors.secondaryColor,
+                  ),
+                );
+              },
+              child: StyledTitle('Save Character'),
+            ),
+            SizedBox(height: 20),
           ],
         ),
       ),
