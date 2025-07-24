@@ -32,23 +32,4 @@ class Character with Stats {
   }
 }
 
-List<Character> characters = [
-  Character(
-    name: 'Abdi Sembada',
-    slogan: 'Write Code, Play Games, Hug Wife, Sleep Late, Repeat!',
-    vocation: Vocation.wizard,
-    id: "1",
-  ),
-  Character(
-    name: 'Yulita Susilowati',
-    slogan: 'Eat, Eat, Eat, get money from husband',
-    vocation: Vocation.ninja,
-    id: "2",
-  ),
-  Character(
-    name: 'Danu Aditya',
-    slogan: 'Fire In The Hole!',
-    vocation: Vocation.raider,
-    id: "3",
-  ),
-];
+List<Character> characters = [];
