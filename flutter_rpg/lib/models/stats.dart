@@ -60,4 +60,14 @@ mixin Stats {
       _points++;
     }
   }
+
+  // update stats on firestore
+  void setStats({required int points, required Map<String, dynamic> stats}) {
+    _points = points;
+
+    _health = stats['health'] ?? 10;
+    _attack = stats['attack'] ?? 10;
+    _defense = stats['defense'] ?? 10;
+    _skill = stats['skill'] ?? 10;
+  }
 }
