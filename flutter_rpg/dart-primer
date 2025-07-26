@@ -1,0 +1,124 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+void main() async {
+  String name = 'Abdi Sembada Amirullah';
+
+  int age = 90;
+
+  double level = 90 / 3;
+  level * 10;
+
+  int? empty;
+
+  print("My Name is ${name} and I'm $age year's old");
+  print("My level is " + level.toString());
+  print('Velue empty $empty');
+
+  final origin = getAddress("Gresik East Java", "Indonesia");
+  print(origin);
+
+  final hobby = getHobbies(hobbies: "Playing Game, Write Code", age: 90);
+  print(hobby);
+
+  List<int> scores = [10, 20, 55, 80, 19];
+  print(scores);
+
+  scores.add(25);
+  scores.remove(19);
+  print(scores);
+  print(scores.indexOf(25));
+
+  for (int score in scores) {
+    if (score > 20) {
+      print('Score Good ${score}');
+    } else {
+      print('Score Bad ${score}');
+    }
+  }
+
+  for (int score in scores.where((s) => s > 50)) {
+    print('Ultimate score ' + score.toString());
+  }
+  ;
+
+  Set<String> names = {'luigi', 'mario', 'sonic', 'bower'};
+
+  print(names);
+  names.add('raptor');
+  names.remove('sonic');
+
+  print('Total data ${names.length} which are ${names}');
+
+  Map<String, String> genetics = {
+    'eyes': 'blue',
+    'skin': 'white',
+    'hair': 'blonde',
+    'height': '190cm',
+    'weight': '90kg',
+  };
+
+  genetics['bloodline'] = 'Alexander The Great';
+
+  print(genetics);
+  print(genetics['eyes']);
+  print(genetics.containsKey('hair'));
+  print(genetics.containsValue('190cm'));
+
+  var noodle = MenuItem('Mie Ayam', 12000000);
+  var pizza = MenuItem('Volcano Pizza', 120000000);
+  var completedPizza = Pizza(
+    ['Jalapenno', 'Chilli', 'Meat', 'HAM'],
+    'Volcano Pizza',
+    120000000,
+  );
+
+  print(noodle.title);
+  print(noodle.price);
+  print(pizza.title);
+  print(pizza.price);
+  print(noodle.format());
+  print(pizza.format());
+  print(completedPizza);
+
+  var url = Uri.https('jsonplaceholder.typicode.com', '/posts/1');
+
+  var response = await http.get(url);
+  if (response.statusCode == 200) {
+    print(response);
+    var jsonResponse = convert.jsonDecode(response.body);
+    print(jsonResponse);
+  } else {
+    print('Request failed with status: ${response.statusCode}.');
+  }
+}
+
+String getAddress(String address, String country) {
+  return "I lived in $address and my country is $country";
+}
+
+String getHobbies({String? hobbies, required int age}) {
+  return "My Hobby are $hobbies and my age is $age";
+}
+
+class MenuItem {
+  String title;
+  int price;
+
+  MenuItem(this.title, this.price);
+
+  String format() {
+    return 'Price of menu $title is $price';
+  }
+}
+
+class Pizza extends MenuItem {
+  List<String> topping;
+
+  Pizza(this.topping, super.title, super.price);
+
+  @override
+  String toString() {
+    return '$topping $title $price';
+  }
+}
