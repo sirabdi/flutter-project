@@ -37,11 +37,20 @@ class FirestoreService {
       await ref.doc(character.id).update({
         'stats': character.statsAsMap,
         'points': character.points,
-        'skills': character.skills.map((skill) => skill.toString()).toList(),
+        'skills': character.skills.map((skill) => skill.id).toList(),
         'isFav': character.isFav,
       });
     } catch (e) {
       _logger.e('Error updating character', error: e);
+    }
+  }
+
+  // delete character from firestore
+  static Future<void> deleteCharacter(Character character) async {
+    try {
+      await ref.doc(character.id).delete();
+    } catch (e) {
+      _logger.e('Error deleting character', error: e);
     }
   }
 }

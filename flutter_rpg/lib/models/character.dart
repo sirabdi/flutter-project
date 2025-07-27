@@ -24,6 +24,7 @@ class Character with Stats {
   get isFav => _isFav;
 
   void toggleFav() {
+    print('run toggleFav!');
     _isFav = !_isFav;
   }
 
@@ -66,7 +67,10 @@ class Character with Stats {
 
     // update skills
     for (String id in data['skills']) {
-      Skill skill = allSkills.firstWhere((element) => element.id == id);
+      Skill skill = allSkills.firstWhere(
+        (element) => element.id == id,
+        orElse: () => allSkills.first,
+      );
       character.updateSkill(skill);
     }
 

@@ -15,24 +15,29 @@ class CharacterCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/img/vocations/${character.vocation.image}',
-              width: 80,
+            Hero(
+              tag: character.id.toString(),
+              child: Image.asset(
+                'assets/img/vocations/${character.vocation.image}',
+                width: 80,
+              ),
             ),
 
             const SizedBox(width: 20),
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StyledTitle(character.name),
-                StyledText(character.vocation.title),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StyledTitle(character.name),
+                  StyledText(character.vocation.title),
+                ],
+              ),
             ),
 
             // StyledText(character.name),
-            const Expanded(child: SizedBox()),
             IconButton(
               onPressed: () {
                 Navigator.push(

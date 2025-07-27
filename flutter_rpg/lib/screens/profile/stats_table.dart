@@ -13,6 +13,8 @@ class StatesTable extends StatefulWidget {
 }
 
 class _StatesTableState extends State<StatesTable> {
+  double turns = 0.0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,11 +24,15 @@ class _StatesTableState extends State<StatesTable> {
           color: AppColors.secondaryColor,
           child: Row(
             children: [
-              Icon(
-                Icons.star,
-                color: widget.character.points > 0
-                    ? AppColors.highlightColor
-                    : AppColors.secondaryAccent,
+              AnimatedRotation(
+                turns: turns,
+                duration: const Duration(milliseconds: 300),
+                child: Icon(
+                  Icons.star,
+                  color: widget.character.points > 0
+                      ? AppColors.highlightColor
+                      : AppColors.secondaryAccent,
+                ),
               ),
               SizedBox(width: 8),
               StyledText('Available points'),
@@ -63,6 +69,7 @@ class _StatesTableState extends State<StatesTable> {
                     onPressed: () {
                       setState(() {
                         widget.character.increaseStat(stat['title']!);
+                        turns += 1;
                       });
                     },
                     icon: Icon(Icons.arrow_upward, color: AppColors.textColor),
@@ -74,6 +81,7 @@ class _StatesTableState extends State<StatesTable> {
                     onPressed: () {
                       setState(() {
                         widget.character.decreaseStat(stat['title']!);
+                        turns -= 1;
                       });
                     },
                     icon: Icon(
