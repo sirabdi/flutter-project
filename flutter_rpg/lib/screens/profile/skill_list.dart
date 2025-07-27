@@ -5,10 +5,10 @@ import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
 
 class SkillList extends StatefulWidget {
-  const SkillList({super.key, required this.character, required this.isSaved});
+  const SkillList(this.character, this.isSaved, {super.key});
 
   final Character character;
-  bool isSaved;
+  final bool isSaved;
 
   @override
   State<SkillList> createState() => _SkillListState();
@@ -68,9 +68,6 @@ class _SkillListState extends State<SkillList> {
                     setState(() {
                       widget.character.updateSkill(skill);
                       selectedSkill = skill;
-                    });
-                    setState(() {
-                      widget.isSaved = false;
                     });
                   },
                   child: Image.asset(
