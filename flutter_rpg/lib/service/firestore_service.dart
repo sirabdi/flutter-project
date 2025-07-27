@@ -30,4 +30,18 @@ class FirestoreService {
       rethrow; // Re-throw the error to handle it in the calling code
     }
   }
+
+  // update character in firestore
+  static Future<void> updateCharacter(Character character) async {
+    try {
+      await ref.doc(character.id).update({
+        'stats': character.statsAsMap,
+        'points': character.points,
+        'skills': character.skills.map((skill) => skill.toString()).toList(),
+        'isFav': character.isFav,
+      });
+    } catch (e) {
+      _logger.e('Error updating character', error: e);
+    }
+  }
 }
