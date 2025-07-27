@@ -9,14 +9,25 @@ import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
 import 'package:provider/provider.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key, required this.character});
 
   final Character character;
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  bool isSaved = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: StyledHeading(character.name), centerTitle: true),
+      appBar: AppBar(
+        title: StyledHeading(widget.character.name),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,9 +43,9 @@ class Profile extends StatelessWidget {
                   child: Row(
                     children: [
                       Hero(
-                        tag: character.id.toString(),
+                        tag: widget.character.id.toString(),
                         child: Image.asset(
-                          'assets/img/vocations/${character.vocation.image}',
+                          'assets/img/vocations/${widget.character.vocation.image}',
                           width: 140,
                           height: 140,
                         ),
@@ -44,8 +55,8 @@ class Profile extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            StyledHeading(character.name),
-                            StyledText(character.vocation.description),
+                            StyledHeading(widget.character.name),
+                            StyledText(widget.character.vocation.description),
                           ],
                         ),
                       ),
@@ -55,7 +66,7 @@ class Profile extends StatelessWidget {
                 Positioned(
                   top: 10,
                   right: 10,
-                  child: Heart(character: character),
+                  child: Heart(character: widget.character),
                 ),
               ],
             ),
@@ -74,13 +85,13 @@ class Profile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   StyledHeading('Slogan'),
-                  StyledText(character.slogan),
+                  StyledText(widget.character.slogan),
                   SizedBox(height: 16),
                   StyledHeading('Weapond of Choice'),
-                  StyledText(character.vocation.weapon),
+                  StyledText(widget.character.vocation.weapon),
                   SizedBox(height: 16),
                   StyledHeading('Unique Ability'),
-                  StyledText(character.vocation.ability),
+                  StyledText(widget.character.vocation.ability),
                 ],
               ),
             ),
@@ -91,9 +102,9 @@ class Profile extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
               child: Column(
                 children: [
-                  StatesTable(character: character),
+                  StatesTable(character: widget.character, isSaved: isSaved),
                   SizedBox(height: 16),
-                  SkillList(character),
+                  SkillList(widget.character, isSaved),
                 ],
               ),
             ),
@@ -104,7 +115,11 @@ class Profile extends StatelessWidget {
                 Provider.of<CharacterStore>(
                   context,
                   listen: false,
-                ).updateCharacter(character);
+                ).updateCharacter(widget.character);
+
+                setState(() {
+                  isSaved = true;
+                });
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

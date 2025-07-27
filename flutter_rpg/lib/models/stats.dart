@@ -70,4 +70,8 @@ mixin Stats {
     _defense = stats['defense'] ?? 10;
     _skill = stats['skill'] ?? 10;
   }
+
+  set points(int value) {
+    _points = value;
+  }
 }

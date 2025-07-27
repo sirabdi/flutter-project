@@ -4,9 +4,14 @@ import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
 
 class StatesTable extends StatefulWidget {
-  const StatesTable({super.key, required this.character});
+  const StatesTable({
+    super.key,
+    required this.character,
+    required this.isSaved,
+  });
 
   final Character character;
+  final bool isSaved;
 
   @override
   State<StatesTable> createState() => _StatesTableState();
@@ -14,6 +19,23 @@ class StatesTable extends StatefulWidget {
 
 class _StatesTableState extends State<StatesTable> {
   double turns = 0.0;
+  late int initialPoints;
+  late Map<String, dynamic> initialStatsMap;
+
+  @override
+  void initState() {
+    super.initState();
+    initialPoints = widget.character.points;
+    initialStatsMap = Map<String, dynamic>.from(widget.character.statsAsMap);
+  }
+
+  @override
+  void dispose() {
+    if (!widget.isSaved) {
+      widget.character.setStats(points: initialPoints, stats: initialStatsMap);
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

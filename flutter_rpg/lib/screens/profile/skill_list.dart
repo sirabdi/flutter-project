@@ -5,9 +5,10 @@ import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
 
 class SkillList extends StatefulWidget {
-  const SkillList(this.character, {super.key});
+  const SkillList({super.key, required this.character, required this.isSaved});
 
   final Character character;
+  bool isSaved;
 
   @override
   State<SkillList> createState() => _SkillListState();
@@ -16,6 +17,15 @@ class SkillList extends StatefulWidget {
 class _SkillListState extends State<SkillList> {
   late List<Skill> availableSkills;
   late Skill selectedSkill;
+  late Skill previousSkill;
+
+  @override
+  void dispose() {
+    if (!widget.isSaved) {
+      widget.character.updateSkill(previousSkill); // reset ke skill awal
+    }
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -29,6 +39,7 @@ class _SkillListState extends State<SkillList> {
     if (widget.character.skills.isNotEmpty) {
       selectedSkill = widget.character.skills.first;
     }
+    previousSkill = selectedSkill;
 
     super.initState();
   }
@@ -57,6 +68,9 @@ class _SkillListState extends State<SkillList> {
                     setState(() {
                       widget.character.updateSkill(skill);
                       selectedSkill = skill;
+                    });
+                    setState(() {
+                      widget.isSaved = false;
                     });
                   },
                   child: Image.asset(
