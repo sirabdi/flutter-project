@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_rpg/models/skill.dart';
-import 'package:flutter_rpg/models/stats.dart';
-import 'package:flutter_rpg/models/vocation.dart';
+import 'package:flutter_rpg/models/character/skill.dart';
+import 'package:flutter_rpg/models/character/stats.dart';
+import 'package:flutter_rpg/models/character/vocation.dart';
 
 class Character with Stats {
   // constructor

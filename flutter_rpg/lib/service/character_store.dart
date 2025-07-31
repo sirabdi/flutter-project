@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rpg/models/character.dart';
+import 'package:flutter_rpg/models/character/character.dart';
 import 'package:flutter_rpg/service/firestore_service.dart';
 
 class CharacterStore extends ChangeNotifier {

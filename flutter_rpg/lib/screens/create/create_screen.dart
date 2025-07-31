@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rpg/models/character.dart';
-import 'package:flutter_rpg/models/vocation.dart';
+import 'package:flutter_rpg/models/character/character.dart';
+import 'package:flutter_rpg/models/character/vocation.dart';
 import 'package:flutter_rpg/screens/create/error_dialog.dart';
 import 'package:flutter_rpg/screens/create/vocation_card.dart';
 import 'package:flutter_rpg/screens/home/home.dart';

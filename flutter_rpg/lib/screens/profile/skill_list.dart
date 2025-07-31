@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rpg/models/character.dart';
-import 'package:flutter_rpg/models/skill.dart';
+import 'package:flutter_rpg/models/character/character.dart';
+import 'package:flutter_rpg/models/character/skill.dart';
 import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
 

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rpg/screens/character/character_screen.dart';
-import 'package:flutter_rpg/screens/create/create_screen.dart';
-import 'package:flutter_rpg/screens/home/character_card.dart';
+import 'package:flutter_rpg/screens/todo/todo_screen.dart';
 import 'package:flutter_rpg/service/character_store.dart';
-import 'package:flutter_rpg/shared/styled_button.dart';
 import 'package:flutter_rpg/shared/styled_text.dart';
 import 'package:flutter_rpg/theme.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +21,7 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  static final listMenu = [
+  final List<Map<String, Object>> listMenu = [
     {
       'id': '1',
       'title': 'Character Page',
@@ -31,10 +29,10 @@ class _HomeState extends State<Home> {
       'screen': CharacterScreen(),
     },
     {
-      'id': '1',
+      'id': '2',
       'title': 'Todo Page',
       'subtitle': 'Add Todos List',
-      'screen': CharacterScreen(),
+      'screen': TodoScreen(),
     },
   ];
 

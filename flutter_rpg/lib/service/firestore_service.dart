@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_rpg/models/character.dart';
+import 'package:flutter_rpg/models/character/character.dart';
+import 'package:flutter_rpg/models/todo/todo.dart';
 import 'package:logger/logger.dart';
 
 class FirestoreService {
@@ -51,6 +52,22 @@ class FirestoreService {
       await ref.doc(character.id).delete();
     } catch (e) {
       _logger.e('Error deleting character', error: e);
+    }
+  }
+
+  static final refTodo = FirebaseFirestore.instance
+      .collection('todos')
+      .withConverter(
+        fromFirestore: Todo.fromFirestore,
+        toFirestore: (Todo c, _) => c.toFirestore(),
+      );
+
+  // add character to firestore
+  static Future<void> addTodo(Todo todo) async {
+    try {
+      await refTodo.doc(todo.id).set(todo);
+    } catch (e) {
+      _logger.d('Error adding todos', error: e);
     }
   }
 }

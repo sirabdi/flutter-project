@@ -1,4 +1,4 @@
-import 'package:flutter_rpg/models/vocation.dart';
+import 'package:flutter_rpg/models/character/vocation.dart';
 
 class Skill {
   // field
