@@ -15,7 +15,7 @@ class TodoStore extends ChangeNotifier {
     notifyListeners(); // Revalidate the listeners to update the UI
   }
 
-  // fetch characters from firestore
+  // fetch todos from firestore
   Future<void> fetchTodosOnce() async {
     if (todos.length == 0) {
       final snapshot = await FirestoreService.getTodos();
@@ -25,5 +25,23 @@ class TodoStore extends ChangeNotifier {
       }
       notifyListeners(); // Revalidate the listeners to update the UI
     }
+  }
+
+  // update todo
+  Future<void> updateTodo(Todo todo) async {
+    await FirestoreService.updateTodo(todo);
+
+    final index = _todos.indexWhere((t) => t.id == todo.id);
+    if (index != -1) {
+      _todos[index] = todo;
+    }
+    notifyListeners(); // update UI
+  }
+
+  // delete todo
+  Future<void> removeTodo(Todo todo) async {
+    await FirestoreService.deleteTodo(todo);
+    _todos.remove(todo);
+    notifyListeners(); // Revalidate the listeners to update the UI
   }
 }

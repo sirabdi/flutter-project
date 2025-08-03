@@ -84,4 +84,26 @@ class FirestoreService {
       rethrow; // Re-throw the error to handle it in the calling code
     }
   }
+
+  // update character in firestore
+  static Future<void> updateTodo(Todo todo) async {
+    try {
+      await refTodo.doc(todo.id).update({
+        'title': todo.title,
+        'description': todo.description,
+        'priority': todo.priority.toString(),
+      });
+    } catch (e) {
+      _logger.e('Error updating todo', error: e);
+    }
+  }
+
+  // delete character from firestore
+  static Future<void> deleteTodo(Todo todo) async {
+    try {
+      await refTodo.doc(todo.id).delete();
+    } catch (e) {
+      _logger.e('Error deleting todo', error: e);
+    }
+  }
 }

@@ -12,19 +12,29 @@ import 'package:uuid/uuid.dart';
 
 var uuid = Uuid();
 
-class TodoCreateScreen extends StatefulWidget {
-  const TodoCreateScreen({super.key});
+class TodoEditScreen extends StatefulWidget {
+  const TodoEditScreen({super.key, required this.todo});
+
+  final Todo todo;
 
   @override
-  State<TodoCreateScreen> createState() => _TodoCreateScreenState();
+  State<TodoEditScreen> createState() => _TodoEditScreenState();
 }
 
-class _TodoCreateScreenState extends State<TodoCreateScreen> {
+class _TodoEditScreenState extends State<TodoEditScreen> {
   final _formGlobalKey = GlobalKey<FormState>();
 
-  Priority _selectedPriority = Priority.low;
-  String _ttile = '';
-  String _description = '';
+  late String _title;
+  late String _description;
+  late Priority _selectedPriority;
+
+  @override
+  void initState() {
+    super.initState();
+    _title = widget.todo.title;
+    _description = widget.todo.description;
+    _selectedPriority = widget.todo.priority;
+  }
 
   void showErrorMessage(String title, String description) {
     showDialog(
@@ -37,12 +47,13 @@ class _TodoCreateScreenState extends State<TodoCreateScreen> {
 
   // submit form
   void handleSubmit() {
-    Provider.of<TodoStore>(context, listen: false).addTodo(
+    print(widget.todo.id);
+    Provider.of<TodoStore>(context, listen: false).updateTodo(
       Todo(
-        title: _ttile,
+        title: _title,
         description: _description,
         priority: _selectedPriority,
-        id: uuid.v4(),
+        id: widget.todo.id,
       ),
     );
 
@@ -58,10 +69,7 @@ class _TodoCreateScreenState extends State<TodoCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: StyledHeading('Create New Todo'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: StyledHeading('Edit Todo'), centerTitle: true),
       body: Container(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -85,6 +93,7 @@ class _TodoCreateScreenState extends State<TodoCreateScreen> {
                 children: [
                   TextFormField(
                     maxLength: 20,
+                    initialValue: _title,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.abc_rounded),
                       labelText: 'Title',
@@ -104,12 +113,13 @@ class _TodoCreateScreenState extends State<TodoCreateScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      _ttile = value!;
+                      _title = value!;
                     },
                   ),
 
                   TextFormField(
                     maxLength: 40,
+                    initialValue: _description,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.comment),
                       labelText: 'Description',
