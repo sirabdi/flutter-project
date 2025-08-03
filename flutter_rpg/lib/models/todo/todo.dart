@@ -18,16 +18,20 @@ class Todo {
     required this.id,
     required this.title,
     required this.description,
-    // required this.priority,
+    required this.priority,
   });
 
   final String id;
   final String title;
   final String description;
-  // final Priority priority;
+  final Priority priority;
 
   Map<String, dynamic> toFirestore() {
-    return {'title': title, 'description': description};
+    return {
+      'title': title,
+      'description': description,
+      'priority': priority.toString(),
+    };
   }
 
   factory Todo.fromFirestore(
@@ -41,6 +45,10 @@ class Todo {
     Todo todo = Todo(
       title: data['title'] as String,
       description: data['description'] as String,
+      priority: Priority.values.firstWhere(
+        (v) => v.toString() == data['priority'],
+        orElse: () => Priority.low,
+      ),
       id: snapshot.id,
     );
 

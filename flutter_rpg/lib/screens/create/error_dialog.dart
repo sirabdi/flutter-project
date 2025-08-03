@@ -17,6 +17,7 @@ class ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: StyledHeading(title),
       content: StyledText(description),
       actions: [

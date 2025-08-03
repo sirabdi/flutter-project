@@ -22,6 +22,11 @@ class TodoCreateScreen extends StatefulWidget {
 class _TodoCreateScreenState extends State<TodoCreateScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _formGlobalKey = GlobalKey<FormState>();
+
+  Priority _selectedPriority = Priority.low;
+  String _ttile = '';
+  String _description = '';
 
   @override
   void dispose() {
@@ -30,44 +35,28 @@ class _TodoCreateScreenState extends State<TodoCreateScreen> {
     super.dispose();
   }
 
+  void showErrorMessage(String title, String description) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return ErrorDialog(title: title, description: description, ctx: ctx);
+      },
+    );
+  }
+
   // submit form
   void handleSubmit() {
-    if (_titleController.text.trim().isEmpty) {
-      // show error dialog
-      showDialog(
-        context: context,
-        builder: (ctx) {
-          return ErrorDialog(
-            title: 'Missing Title Name',
-            description: 'Please fill the Todo title correctly!',
-            ctx: ctx,
-          );
-        },
-      );
-      return;
-    }
-    if (_descriptionController.text.trim().isEmpty) {
-      // show error dialog
-      showDialog(
-        context: context,
-        builder: (ctx) {
-          return ErrorDialog(
-            title: 'Missing Description Name',
-            description: 'Please fill the Todo description correctly!',
-            ctx: ctx,
-          );
-        },
-      );
-      return;
-    }
-
     Provider.of<TodoStore>(context, listen: false).addTodo(
       Todo(
-        title: _titleController.text.trim(),
-        description: _descriptionController.text.trim(),
+        title: _ttile,
+        description: _description,
+        priority: _selectedPriority,
         id: uuid.v4(),
       ),
     );
+
+    _formGlobalKey.currentState!.reset();
+    _selectedPriority = Priority.low;
 
     Navigator.push(
       context,
@@ -98,35 +87,107 @@ class _TodoCreateScreenState extends State<TodoCreateScreen> {
               child: StyledText('This is where the dream will become real!'),
             ),
             const SizedBox(height: 20),
+            //form widget
+            Form(
+              key: _formGlobalKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    maxLength: 20,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.abc_rounded),
+                      labelText: 'Title',
+                      labelStyle: GoogleFonts.quicksand(
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
+                        color: AppColors.textColor,
+                      ),
+                    ),
+                    style: GoogleFonts.quicksand(
+                      textStyle: Theme.of(context).textTheme.bodyMedium,
+                      color: AppColors.textColor,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please fill the Todo title correctly!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _ttile = value!;
+                    },
+                  ),
 
-            //input form
-            TextField(
-              controller: _titleController,
-              style: GoogleFonts.quicksand(
-                textStyle: Theme.of(context).textTheme.bodyMedium,
-              ),
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.abc_rounded),
-                label: StyledText('Title'),
-              ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: _descriptionController,
-              style: GoogleFonts.quicksand(
-                textStyle: Theme.of(context).textTheme.bodyMedium,
-              ),
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.comment),
-                label: StyledText('Description'),
-              ),
-            ),
-            SizedBox(height: 20),
+                  TextFormField(
+                    maxLength: 40,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.comment),
+                      labelText: 'Description',
+                      labelStyle: GoogleFonts.quicksand(
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
+                        color: AppColors.textColor,
+                      ),
+                    ),
+                    style: GoogleFonts.quicksand(
+                      textStyle: Theme.of(context).textTheme.bodyMedium,
+                      color: AppColors.textColor,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty || value.length < 5) {
+                        return 'Please fill the Description at least 5 characters long!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _description = value!;
+                    },
+                  ),
 
-            Center(
-              child: StyledButton(
-                onPressed: handleSubmit,
-                child: StyledTitle('Create Todo'),
+                  DropdownButtonFormField(
+                    value: _selectedPriority,
+                    dropdownColor: AppColors
+                        .secondaryColor, // Set your desired background color here
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.star),
+                      labelText: 'Priority',
+                      labelStyle: GoogleFonts.quicksand(
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
+                        color: AppColors.textColor,
+                      ),
+                    ),
+                    items: Priority.values.map((priority) {
+                      return DropdownMenuItem(
+                        value: priority,
+                        child: Text(
+                          priority.title,
+                          style: GoogleFonts.quicksand(
+                            textStyle: Theme.of(context).textTheme.bodyMedium,
+                            color: priority.color,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedPriority = value as Priority;
+                      });
+                    },
+                  ),
+
+                  SizedBox(height: 20),
+
+                  Center(
+                    child: StyledButton(
+                      onPressed: () {
+                        if (_formGlobalKey.currentState!.validate()) {
+                          _formGlobalKey.currentState!.save();
+
+                          handleSubmit();
+                        }
+                      },
+                      child: StyledTitle('Create Todo'),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

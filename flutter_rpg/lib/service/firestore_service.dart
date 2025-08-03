@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 class FirestoreService {
   static final Logger _logger = Logger();
 
+  // CHARACTERS
   static final ref = FirebaseFirestore.instance
       .collection('characters')
       .withConverter(
@@ -55,6 +56,9 @@ class FirestoreService {
     }
   }
 
+  // --------------------------- //
+
+  // TODOS
   static final refTodo = FirebaseFirestore.instance
       .collection('todos')
       .withConverter(
@@ -62,12 +66,22 @@ class FirestoreService {
         toFirestore: (Todo c, _) => c.toFirestore(),
       );
 
-  // add character to firestore
+  // add todo to firestore
   static Future<void> addTodo(Todo todo) async {
     try {
       await refTodo.doc(todo.id).set(todo);
     } catch (e) {
       _logger.d('Error adding todos', error: e);
+    }
+  }
+
+  // get todo from firestore
+  static Future<QuerySnapshot<Todo>> getTodos() async {
+    try {
+      return await refTodo.get();
+    } catch (e) {
+      _logger.e('Error fetching characters', error: e);
+      rethrow; // Re-throw the error to handle it in the calling code
     }
   }
 }

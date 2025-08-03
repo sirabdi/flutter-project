@@ -14,4 +14,16 @@ class TodoStore extends ChangeNotifier {
     _todos.add(todo);
     notifyListeners(); // Revalidate the listeners to update the UI
   }
+
+  // fetch characters from firestore
+  Future<void> fetchTodosOnce() async {
+    if (todos.length == 0) {
+      final snapshot = await FirestoreService.getTodos();
+
+      for (var doc in snapshot.docs) {
+        todos.add(doc.data());
+      }
+      notifyListeners(); // Revalidate the listeners to update the UI
+    }
+  }
 }
