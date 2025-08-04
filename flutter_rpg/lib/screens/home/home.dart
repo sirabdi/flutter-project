@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rpg/screens/character/character_screen.dart';
+import 'package:flutter_rpg/screens/product/product-screen.dart';
 import 'package:flutter_rpg/screens/todo/todo_screen.dart';
 import 'package:flutter_rpg/service/character_store.dart';
 import 'package:flutter_rpg/shared/styled_text.dart';
@@ -33,6 +34,12 @@ class _HomeState extends State<Home> {
       'title': 'Todo Page',
       'subtitle': 'Add Todos List',
       'screen': TodoScreen(),
+    },
+    {
+      'id': '3',
+      'title': 'Product Page',
+      'subtitle': 'Selling something that you need',
+      'screen': ProductScreen(),
     },
   ];
 

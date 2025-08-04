@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rpg/service/character_store.dart';
 import 'package:flutter_rpg/service/todo_store.dart';
 import 'package:flutter_rpg/theme.dart';
 import 'package:flutter_rpg/screens/home/home.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
 
 // firebase imports
 import 'package:firebase_core/firebase_core.dart';
@@ -16,16 +17,14 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
-    // ChangeNotifierProvider(
-    //   create: (context) => CharacterStore(),
-    //   child: MaterialApp(theme: primaryTheme, home: const Home()),
-    // ),
-    MultiProvider(
+    provider.MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => CharacterStore()),
-        ChangeNotifierProvider(create: (context) => TodoStore()),
+        provider.ChangeNotifierProvider(create: (context) => CharacterStore()),
+        provider.ChangeNotifierProvider(create: (context) => TodoStore()),
       ],
-      child: MaterialApp(theme: primaryTheme, home: const Home()),
+      child: ProviderScope(
+        child: MaterialApp(theme: primaryTheme, home: const Home()),
+      ),
     ),
   );
 }
