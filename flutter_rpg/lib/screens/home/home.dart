@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rpg/screens/character/character_screen.dart';
-import 'package:flutter_rpg/screens/product/product-screen.dart';
+import 'package:flutter_rpg/screens/product/product_screen.dart';
 import 'package:flutter_rpg/screens/todo/todo_screen.dart';
 import 'package:flutter_rpg/service/character_store.dart';
 import 'package:flutter_rpg/shared/styled_text.dart';
@@ -81,16 +81,6 @@ class _HomeState extends State<Home> {
                 },
               ),
             ),
-
-            // StyledButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (ctx) => const CreateScreen()),
-            //     );
-            //   },
-            //   child: const StyledTitle('Create New'),
-            // ),
           ],
         ),
       ),

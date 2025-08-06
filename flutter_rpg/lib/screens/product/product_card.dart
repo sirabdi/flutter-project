@@ -32,8 +32,15 @@ class _ProductCardState extends State<ProductCard> {
           ),
           Column(
             children: [
-              StyledTitle(widget.title),
-              StyledText('Rp. ${widget.price.toString()},-'),
+              Center(
+                child: StyledTitle(widget.title, textAlign: TextAlign.center),
+              ),
+              Center(
+                child: StyledText(
+                  'Rp. ${widget.price.toString()},-',
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
         ],
