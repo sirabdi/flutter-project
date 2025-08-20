@@ -36,11 +36,11 @@ const List<Product> allProducts = [
 
 // generated provider
 @riverpod
-List<Product> productsProvider(ref) {
+List<Product> products(ref) {
   return allProducts;
 }
 
 @riverpod
-List<Product> reduceProductsProvider(ref) {
+List<Product> reduceProducts(ref) {
   return allProducts.where((p) => p.price < 6).toList();
 }
