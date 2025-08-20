@@ -7,6 +7,7 @@ const List<Product> allProducts = [
   Product(
     id: 1,
     title: 'Engraved Glass Cup',
+    qty: 10,
     description:
         "A transparent drinking glass with elegant floral engravings all around. Its ergonomic shape makes it comfortable to hold, perfect for serving various hot or cold beverages. It's heat-resistant and easy to clean.",
     price: 2.50,
@@ -14,6 +15,7 @@ const List<Product> allProducts = [
   Product(
     id: 2,
     title: 'Synthetic Leather Notebook',
+    qty: 10,
     description:
         "An A5-sized notebook with a dark brown synthetic leather cover. It contains 150 sheets of high-quality blank paper, ideal for sketching, journaling, or jotting down ideas. It also includes a ribbon bookmark.",
     price: 5.50,
@@ -21,6 +23,7 @@ const List<Product> allProducts = [
   Product(
     id: 3,
     title: 'Minimalist Desk Lamp',
+    qty: 10,
     description:
         "A modern and minimalist desk lamp with a pine wood base and a cylindrical white lampshade. It emits a soft light, making it perfect for reading or working at night. Its simple design fits any decor.",
     price: 10.00,
@@ -28,6 +31,7 @@ const List<Product> allProducts = [
   Product(
     id: 4,
     title: 'All-Purpose Wrench',
+    qty: 10,
     description:
         "A durable and strong tool made of carbon steel. It's designed to adjust to various bolt and nut sizes, making it a practical multi-purpose wrench for home repairs. The handle has a non-slip rubber grip.",
     price: 5.00,

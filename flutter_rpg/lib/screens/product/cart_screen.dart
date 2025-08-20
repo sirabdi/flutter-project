@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rpg/models/product/product.dart';
+import 'package:flutter_rpg/providers/cart_provider.dart';
 import 'package:flutter_rpg/providers/products_provider.dart';
 import 'package:flutter_rpg/screens/product/product_screen.dart';
 import 'package:flutter_rpg/shared/styled_text.dart';
@@ -16,7 +17,7 @@ class CartScreen extends ConsumerStatefulWidget {
 class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final selectedProduct = ref.watch(reduceProductsProvider);
+    final selectedProduct = ref.watch(cartNotifierProvider).toList();
 
     return Scaffold(
       appBar: AppBar(

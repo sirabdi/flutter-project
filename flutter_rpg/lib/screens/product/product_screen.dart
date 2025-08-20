@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_rpg/providers/cart_provider.dart';
 import 'package:flutter_rpg/providers/products_provider.dart';
 import 'package:flutter_rpg/screens/home/home.dart';
 import 'package:flutter_rpg/screens/product/product_card.dart';
@@ -17,7 +18,8 @@ class ProductScreen extends ConsumerStatefulWidget {
 class _ProductScreenState extends ConsumerState<ProductScreen> {
   @override
   Widget build(BuildContext context) {
-    final allProduct = ref.watch(productsProvider);
+    final allProducts = ref.watch(productsProvider);
+    final cartProducts = ref.watch(cartNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,17 +39,18 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
       body: Container(
         padding: EdgeInsets.all(16),
         child: GridView.builder(
-          itemCount: allProduct.length,
+          itemCount: allProducts.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 20,
-            childAspectRatio: 0.9,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: 0.6,
           ),
           itemBuilder: (context, index) {
             return ProductCard(
-              title: allProduct[index].title,
-              price: allProduct[index].price,
+              cartProducts: cartProducts,
+              allProducts: allProducts,
+              index: index,
             );
           },
         ),
