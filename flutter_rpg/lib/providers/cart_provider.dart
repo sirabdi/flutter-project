@@ -1,10 +1,19 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rpg/models/product/product.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class CartNotifier extends Notifier<Set<Product>> {
+part 'cart_provider.g.dart';
+
+@riverpod
+class CartNotifier extends _$CartNotifier {
   @override
   Set<Product> build() {
     return {};
+  }
+
+  void addProductQty(Product product, int qty) {
+    if (!state.contains(product)) {
+      state = {...state, product};
+    }
   }
 
   void addProduct(Product product) {
@@ -23,7 +32,3 @@ class CartNotifier extends Notifier<Set<Product>> {
     state = {};
   }
 }
-
-final cartNotifierProvider = NotifierProvider<CartNotifier, Set<Product>>(() {
-  return CartNotifier();
-});

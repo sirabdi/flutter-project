@@ -58,6 +58,39 @@ class _ProductCardState extends ConsumerState<ProductCard> {
                     ),
                   ),
                   SizedBox(height: 8),
+                  Center(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: AppColors.secondaryAccent,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Center(
+                            child: StyledText(
+                              '${widget.allProducts[widget.index].qty}',
+                            ),
+                          ),
+                        ),
+                        StyledButton(
+                          onPressed: () {
+                            ref
+                                .read(cartNotifierProvider.notifier)
+                                .addProductQty(
+                                  widget.allProducts[widget.index],
+                                  widget.allProducts[widget.index].qty + 1,
+                                );
+                          },
+                          child: Icon(Icons.add, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 8),
 
                   if (widget.cartProducts.contains(
                     widget.allProducts[widget.index],
