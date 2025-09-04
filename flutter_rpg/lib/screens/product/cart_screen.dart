@@ -18,6 +18,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final selectedProduct = ref.watch(cartNotifierProvider).toList();
+    final totalProduct = ref.watch(cartTotalProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,20 +36,28 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: ListView.builder(
-          itemCount: selectedProduct.length,
-          itemBuilder: (context, index) {
-            return Dismissible(
-              key: ValueKey(selectedProduct[index].id),
-              child: ListTile(
-                title: StyledTitle(selectedProduct[index].title),
-                tileColor: AppColors.secondaryColor,
-                trailing: StyledText(
-                  'Rp. ${selectedProduct[index].price.toString()},-',
-                ),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: selectedProduct.length,
+                itemBuilder: (context, index) {
+                  return Dismissible(
+                    key: ValueKey(selectedProduct[index].id),
+                    child: ListTile(
+                      title: StyledTitle(selectedProduct[index].title),
+                      subtitle: StyledTitle('${selectedProduct[index].qty}'),
+                      tileColor: AppColors.secondaryColor,
+                      trailing: StyledText(
+                        'Rp. ${selectedProduct[index].price.toString()},-',
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+            StyledTitle('Total Price: $totalProduct'),
+          ],
         ),
       ),
     );

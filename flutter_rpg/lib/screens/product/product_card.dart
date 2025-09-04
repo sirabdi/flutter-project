@@ -24,6 +24,8 @@ class ProductCard extends ConsumerStatefulWidget {
 }
 
 class _ProductCardState extends ConsumerState<ProductCard> {
+  int qty = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,37 +65,48 @@ class _ProductCardState extends ConsumerState<ProductCard> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 50,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: AppColors.secondaryAccent,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Center(
-                            child: StyledText(
-                              '${widget.allProducts[widget.index].qty}',
+                        if (!widget.cartProducts.any(
+                          (p) => p.id == widget.allProducts[widget.index].id,
+                        ))
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (qty > 0) qty--;
+                                });
+                              },
+                              child: Icon(Icons.remove, color: Colors.white),
                             ),
                           ),
-                        ),
-                        StyledButton(
-                          onPressed: () {
-                            ref
-                                .read(cartNotifierProvider.notifier)
-                                .addProductQty(
-                                  widget.allProducts[widget.index],
-                                  widget.allProducts[widget.index].qty + 1,
-                                );
-                          },
-                          child: Icon(Icons.add, color: Colors.white),
-                        ),
+                        SizedBox(width: 12),
+                        Text('$qty', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 12),
+                        if (!widget.cartProducts.any(
+                          (p) => p.id == widget.allProducts[widget.index].id,
+                        ))
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (qty <
+                                      widget.allProducts[widget.index].qty)
+                                    qty++;
+                                });
+                              },
+                              child: Icon(Icons.add, color: Colors.white),
+                            ),
+                          ),
                       ],
                     ),
                   ),
                   SizedBox(height: 8),
 
-                  if (widget.cartProducts.contains(
-                    widget.allProducts[widget.index],
+                  if (widget.cartProducts.any(
+                    (p) => p.id == widget.allProducts[widget.index].id,
                   ))
                     StyledButton(
                       onPressed: () {
@@ -104,15 +117,20 @@ class _ProductCardState extends ConsumerState<ProductCard> {
                       child: StyledText('Remove'),
                     ),
 
-                  if (!widget.cartProducts.contains(
-                    widget.allProducts[widget.index],
+                  if (!widget.cartProducts.any(
+                    (p) => p.id == widget.allProducts[widget.index].id,
                   ))
                     StyledButton(
-                      onPressed: () {
-                        ref
-                            .read(cartNotifierProvider.notifier)
-                            .addProduct(widget.allProducts[widget.index]);
-                      },
+                      onPressed: qty == 0
+                          ? () {}
+                          : () {
+                              final selectedProduct = widget
+                                  .allProducts[widget.index]
+                                  .copyWith(qty: qty);
+                              ref
+                                  .read(cartNotifierProvider.notifier)
+                                  .addProduct(selectedProduct);
+                            },
                       child: StyledText('Add to Cart'),
                     ),
                 ],
@@ -130,7 +148,9 @@ class _ProductCardState extends ConsumerState<ProductCard> {
                 borderRadius: BorderRadius.circular(9),
               ),
               child: Center(
-                child: StyledText('${widget.allProducts[widget.index].qty}'),
+                child: StyledText(
+                  '${widget.allProducts[widget.index].qty - qty}',
+                ),
               ),
             ),
           ),

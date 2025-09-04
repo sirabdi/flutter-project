@@ -10,16 +10,8 @@ class CartNotifier extends _$CartNotifier {
     return {};
   }
 
-  void addProductQty(Product product, int qty) {
-    if (!state.contains(product)) {
-      state = {...state, product};
-    }
-  }
-
   void addProduct(Product product) {
-    if (!state.contains(product)) {
-      state = {...state, product};
-    }
+    state = {...state.where((p) => p.id != product.id), product};
   }
 
   void removeProduct(Product product) {
@@ -31,4 +23,16 @@ class CartNotifier extends _$CartNotifier {
   void clearCart() {
     state = {};
   }
+}
+
+@riverpod
+int cartTotal(ref) {
+  final cartProducts = ref.watch(cartNotifierProvider);
+
+  int total = 0;
+  for (Product product in cartProducts) {
+    total += (product.price * product.qty).toInt();
+  }
+
+  return total;
 }
